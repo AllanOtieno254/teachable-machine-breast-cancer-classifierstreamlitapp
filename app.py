@@ -56,7 +56,7 @@ if uploaded_file is not None:
     # Get predictions
     label, probabilities = teachable_machine_classification(
         Image.open(uploaded_file), 
-        'model/keras_model.h5'
+        'keras_model.h5'
     )
 
     class_names = ["Normal", "Malignant", "Benign"]
@@ -66,3 +66,4 @@ if uploaded_file is not None:
     st.write("### Prediction Probabilities:")
     for i, class_name in enumerate(class_names):
         st.write(f"**{class_name}: {probabilities[i] * 100:.2f}%**")
+
