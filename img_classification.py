@@ -7,21 +7,23 @@ def teachable_machine_classification(img, weights_file):
     # Load the model
     model = keras.models.load_model(weights_file)
 
-    # Create the array of the right shape to feed into the keras model
-    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
-    image = img
-    #image sizing
+    # Resize image
     size = (224, 224)
-    image = ImageOps.fit(image, size, Image.ANTIALIAS)
+    image = ImageOps.fit(img, size, Image.Resampling.LANCZOS)
 
-    #turn the image into a numpy array
-    image_array = np.asarray(image)
-    # Normalize the image
-    normalized_image_array = (image_array.astype(np.float32) / 127.0) - 1
+    # Convert to array
+    image_array = np.asarray(image).astype(np.float32)
 
-    # Load the image into the array
-    data[0] = normalized_image_array
+    # Normalize
+    normalized_image_array = (image_array / 127.0) - 1.0
 
-    # run the inference
-    prediction = model.predict(data)
-    return np.argmax(prediction) # return position of the highest probability
+    # Add batch dimension
+    data = np.expand_dims(normalized_image_array, axis=0)
+
+    # Run prediction
+    prediction = model.predict(data)[0]  # shape = (3,)
+
+    # Highest probability index
+    label = np.argmax(prediction)
+
+    return label, prediction  # return BOTH label and all probability scores
