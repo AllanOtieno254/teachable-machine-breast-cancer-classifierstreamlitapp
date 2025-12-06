@@ -12,4 +12,4 @@ How to Open App
 2.Open project with an IDE or any text editor to view code
 3.Change directory to project in shell - cd breast-cancer-detection
 4.Activate the virtual environment - (on Mac) - source venv/bin/activate
-4.Open the app - streamlit run app.py
+4.Open the app - streamlit run app.py 
